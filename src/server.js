@@ -26,9 +26,12 @@ if (process.env.NODE_ENV === 'production') {
   startAutoBackup();
   
   // 启动时立即创建一次备份
-  createBackup()
-    .then(() => console.log('✅ Initial backup completed'))
-    .catch(err => console.error('⚠️  Initial backup failed:', err.message));
+  try {
+    createBackup();  // ✅ 改这里：直接调用，不用 .then()
+    console.log('✅ Initial backup completed');
+  } catch (err) {
+    console.error('⚠️  Initial backup failed:', err.message);
+  }
 }
 
 // 开发环境提醒
@@ -53,27 +56,25 @@ app.listen(PORT, () => {
 process.on('SIGTERM', () => {
   console.log('⚠️  SIGTERM received, creating final backup...');
   
-  createBackup()
-    .then(() => {
-      console.log('✅ Final backup completed');
-      process.exit(0);
-    })
-    .catch(err => {
-      console.error('❌ Final backup failed:', err.message);
-      process.exit(1);
-    });
+  try {
+    createBackup();  // ✅ 改这里
+    console.log('✅ Final backup completed');
+    process.exit(0);
+  } catch (err) {
+    console.error('❌ Final backup failed:', err.message);
+    process.exit(1);
+  }
 });
 
 process.on('SIGINT', () => {
   console.log('\n⚠️  SIGINT received (Ctrl+C), creating final backup...');
   
-  createBackup()
-    .then(() => {
-      console.log('✅ Final backup completed');
-      process.exit(0);
-    })
-    .catch(err => {
-      console.error('❌ Final backup failed:', err.message);
-      process.exit(1);
-    });
+  try {
+    createBackup();  // ✅ 改这里
+    console.log('✅ Final backup completed');
+    process.exit(0);
+  } catch (err) {
+    console.error('❌ Final backup failed:', err.message);
+    process.exit(1);
+  }
 });
