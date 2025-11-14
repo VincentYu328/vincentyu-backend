@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 
 const SALT_ROUNDS = parseInt(process.env.BCRYPT_ROUNDS) || 10;
 
